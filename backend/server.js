@@ -1,9 +1,10 @@
-// server/server.js
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { exec } = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
@@ -16,30 +17,32 @@ const io = new Server(server, {
 
 app.use(cors());
 
-let rooms = {};
-
 const runCode = (language, code) => {
   return new Promise((resolve, reject) => {
     let command;
+
     switch(language) {
       case 'javascript':
         command = `node -e "${code.replace(/"/g, '\\"')}"`;
         break;
+
       case 'python':
         command = `python -c "${code.replace(/"/g, '\\"')}"`;
         break;
+
       case 'java':
-        // For Java, we need to write to a file, compile, and run
-        // This is a simplified version and might not work for all Java code
-        const fs = require('fs');
-        fs.writeFileSync('TempJava.java', code);
-        command = 'javac TempJava.java && java TempJava';
+        const javaFile = path.join(__dirname, 'TempJava.java');
+        fs.writeFileSync(javaFile, code);
+        command = `javac ${javaFile} && java -cp ${__dirname} TempJava`;
         break;
+
       case 'cpp': 
         const cppFile = path.join(__dirname, 'TempCpp.cpp');
+        const exeFile = path.join(__dirname, 'TempCpp');
         fs.writeFileSync(cppFile, code);
-        command = `g++ ${cppFile} -o TempCpp && ./TempCpp`;
+        command = `g++ ${cppFile} -o ${exeFile} && ${exeFile}`;
         break;
+
       default:
         reject('Unsupported language');
         return;
@@ -62,10 +65,6 @@ io.on('connection', (socket) => {
 
   socket.on('joinRoom', (roomId) => {
     socket.join(roomId);
-    if (!rooms[roomId]) {
-      rooms[roomId] = { users: new Set(), language: 'javascript' };
-    }
-    rooms[roomId].users.add(socket.id);
     console.log(`User ${socket.id} joined room: ${roomId}`);
   });
 
@@ -78,7 +77,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('languageUpdate', ({ roomId, user, language }) => {
-    rooms[roomId].language = language;
     socket.to(roomId).emit('languageUpdate', { user, language });
   });
 
@@ -92,14 +90,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    Object.keys(rooms).forEach(roomId => {
-      if (rooms[roomId].users.has(socket.id)) {
-        rooms[roomId].users.delete(socket.id);
-        if (rooms[roomId].users.size === 0) {
-          delete rooms[roomId];
-        }
-      }
-    });
     console.log('User disconnected:', socket.id);
   });
 });
