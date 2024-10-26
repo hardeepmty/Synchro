@@ -1,18 +1,18 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors');
-const { exec } = require('child_process');
-const path = require('path');
-const fs = require('fs');
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const cors = require("cors");
+const { exec } = require("child_process");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST']
-  }
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
 });
 
 app.use(cors());
@@ -21,30 +21,30 @@ const runCode = (language, code) => {
   return new Promise((resolve, reject) => {
     let command;
 
-    switch(language) {
-      case 'javascript':
+    switch (language) {
+      case "javascript":
         command = `node -e "${code.replace(/"/g, '\\"')}"`;
         break;
 
-      case 'python':
+      case "python":
         command = `python -c "${code.replace(/"/g, '\\"')}"`;
         break;
 
-      case 'java':
-        const javaFile = path.join(__dirname, 'TempJava.java');
+      case "java":
+        const javaFile = path.join(__dirname, "TempJava.java");
         fs.writeFileSync(javaFile, code);
         command = `javac ${javaFile} && java -cp ${__dirname} TempJava`;
         break;
 
-      case 'cpp': 
-        const cppFile = path.join(__dirname, 'TempCpp.cpp');
-        const exeFile = path.join(__dirname, 'TempCpp');
+      case "cpp":
+        const cppFile = path.join(__dirname, "TempCpp.cpp");
+        const exeFile = path.join(__dirname, "TempCpp");
         fs.writeFileSync(cppFile, code);
         command = `g++ ${cppFile} -o ${exeFile} && ${exeFile}`;
         break;
 
       default:
-        reject('Unsupported language');
+        reject("Unsupported language");
         return;
     }
 
@@ -60,37 +60,37 @@ const runCode = (language, code) => {
   });
 };
 
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
 
-  socket.on('joinRoom', (roomId) => {
+  socket.on("joinRoom", (roomId) => {
     socket.join(roomId);
     console.log(`User ${socket.id} joined room: ${roomId}`);
   });
 
-  socket.on('sendMessage', ({ roomId, user, message }) => {
-    io.to(roomId).emit('receiveMessage', { user, message });
+  socket.on("sendMessage", ({ roomId, user, message }) => {
+    io.to(roomId).emit("receiveMessage", { user, message });
   });
 
-  socket.on('codeUpdate', ({ roomId, user, code }) => {
-    socket.to(roomId).emit('codeUpdate', { user, code });
+  socket.on("codeUpdate", ({ roomId, user, code }) => {
+    socket.to(roomId).emit("codeUpdate", { user, code });
   });
 
-  socket.on('languageUpdate', ({ roomId, user, language }) => {
-    socket.to(roomId).emit('languageUpdate', { user, language });
+  socket.on("languageUpdate", ({ roomId, user, language }) => {
+    socket.to(roomId).emit("languageUpdate", { user, language });
   });
 
-  socket.on('runCode', async ({ roomId, language, code }) => {
+  socket.on("runCode", async ({ roomId, language, code }) => {
     try {
       const output = await runCode(language, code);
-      io.to(roomId).emit('codeOutput', { output });
+      io.to(roomId).emit("codeOutput", { output });
     } catch (error) {
-      io.to(roomId).emit('codeOutput', { output: `Error: ${error}` });
+      io.to(roomId).emit("codeOutput", { output: `Error: ${error}` });
     }
   });
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
   });
 });
 

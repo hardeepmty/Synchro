@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import AceEditor from 'react-ace';
+import VideoCall from '../components/VideoCall';
 
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
@@ -22,8 +23,8 @@ const Room = () => {
   const [code, setCode] = useState('// Write your code here...');
   const [language, setLanguage] = useState('javascript');
   const [output, setOutput] = useState('');
-  const [projectDescription, setProjectDescription] = useState(''); // New state for project description
-  const [aiGeneratedCode, setAIGeneratedCode] = useState(''); // To store AI-generated code
+  const [projectDescription, setProjectDescription] = useState('');
+  const [aiGeneratedCode, setAIGeneratedCode] = useState(''); 
   const [readOnly, setReadOnly] = useState(true)
 
   useEffect(() => {
@@ -141,7 +142,7 @@ const Room = () => {
         </div>
       </div>
 
-      
+      <VideoCall appId="1eb60b7caffd48549e11940d39453bc7" channel="test" />
     </div>
   );
 };

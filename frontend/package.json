@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "agora-react-uikit": "^1.2.0",
+    "agora-rtc-sdk-ng": "^4.22.1",
     "axios": "^1.7.7",
     "brace": "^0.11.1",
     "cors": "^2.8.5",
