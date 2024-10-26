@@ -6,6 +6,12 @@ const Home = () => {
   const [userName, setUserName] = useState('');
   const navigate = useNavigate();
 
+  // Function to generate a random room ID
+  const generateRoomId = () => {
+    const newRoomId = Math.random().toString(36).substring(2, 10); // Generates an 8-character random ID
+    setRoomId(newRoomId);
+  };
+
   const handleJoinRoom = () => {
     if (roomId && userName) {
       navigate(`/room/${roomId}`, { state: { userName } });
@@ -23,6 +29,7 @@ const Home = () => {
         value={roomId}
         onChange={(e) => setRoomId(e.target.value)}
       />
+      <button onClick={generateRoomId}>Generate Room</button>
       <input
         type="text"
         placeholder="Your Name"

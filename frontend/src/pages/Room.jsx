@@ -4,13 +4,21 @@ import io from 'socket.io-client';
 import AceEditor from 'react-ace';
 import VideoCall from '../components/VideoCall';
 
+// Importing modes
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/mode-java';
-import 'ace-builds/src-noconflict/mode-c_cpp'
-import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/mode-markdown';
 
+// Importing themes
+import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/theme-solarized_dark';
+import 'ace-builds/src-noconflict/theme-solarized_light';
+import 'ace-builds/src-noconflict/theme-dracula';
+import 'ace-builds/src-noconflict/theme-chaos';
 
 const Room = () => {
   const { roomId } = useParams();
@@ -23,9 +31,10 @@ const Room = () => {
   const [code, setCode] = useState('// Write your code here...');
   const [language, setLanguage] = useState('javascript');
   const [output, setOutput] = useState('');
+  const [theme, setTheme] = useState('github'); // Default theme
   const [projectDescription, setProjectDescription] = useState('');
   const [aiGeneratedCode, setAIGeneratedCode] = useState(''); 
-  const [readOnly, setReadOnly] = useState(true)
+  const [readOnly, setReadOnly] = useState(true);
 
   useEffect(() => {
     const newSocket = io('http://localhost:5000');
@@ -83,10 +92,15 @@ const Room = () => {
     }
   };
 
-  //function for read-only access
-  // const toggleEdit = () =>{
-  //   setReadOnly(!readOnly) ;
-  // }
+  const downloadCode = () => {
+    const blob = new Blob([code], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `code.${language === 'cpp' ? 'cpp' : language}`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div>
@@ -111,15 +125,29 @@ const Room = () => {
 
         <div style={{ flex: 2 }}>
           <h3>Collaborative Code Editor</h3>
-          <select value={language} onChange={(e) => updateLanguage(e.target.value)}>
-            <option value="javascript">JavaScript</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-            <option value="cpp">C++</option>
-          </select>
+          <div>
+            {/* <label>Language:</label> */}
+            <select value={language} onChange={(e) => updateLanguage(e.target.value)}>
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="cpp">C++</option>
+            </select>
+            
+            <label>Theme:</label>
+            <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+              <option value="github">GitHub</option>
+              <option value="monokai">Monokai</option>
+              <option value="twilight">Twilight</option>
+              <option value="solarized_dark">Solarized Dark</option>
+              <option value="solarized_light">Solarized Light</option>
+              <option value="dracula">Dracula</option>
+              <option value="chaos">Chaos</option>
+            </select>
+          </div>
           <AceEditor
             mode={language}
-            theme="github"
+            theme={theme}
             name="code-editor"
             onChange={updateCode}
             value={code}
@@ -135,13 +163,13 @@ const Room = () => {
             style={{ width: '100%', height: '300px' }}
           />
           <button onClick={runCode}>Run Code</button>
+          <button onClick={downloadCode}>Download Code</button>
           <h4>Output:</h4>
           <pre style={{ border: '1px solid #ccc', padding: '10px', minHeight: '100px' }}>
             {output}
           </pre>
         </div>
       </div>
-
       <VideoCall appId="1eb60b7caffd48549e11940d39453bc7" channel="test" />
     </div>
   );
