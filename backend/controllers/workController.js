@@ -1,4 +1,5 @@
 const Workspace = require('../models/workspace')
+const User= require('../models/user')
 
 const newWorkSpace = async (req, res) => {
   const { roomId, code, language } = req.body;
@@ -11,8 +12,13 @@ const newWorkSpace = async (req, res) => {
       workspace.language = language;
     } else {
       workspace = new Workspace({ userId, roomId, code, language });
+      await workspace.save();
+
+      //adding to the workspace array
+      await User.findByIdAndUpdate(userId,{
+        $push:{workspaces: workspace._id}
+      }) ;
     }
-    await workspace.save();
 
     res.json({ message: "Workspace saved successfully" });
   } catch (error) {

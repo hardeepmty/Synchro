@@ -70,7 +70,10 @@ const login = async (req, res) => {
     user = {
       _id: user._id,
       username: user.username,
+      workspaces: user.workspaces
     };
+
+    console.log(user)
 
     return res.cookie('token', token, { secure: true,sameSite: 'none', maxAge: 1 * 24 * 60 * 60 * 1000 }).json({
       message: `Welcome back ${user.username}`,
