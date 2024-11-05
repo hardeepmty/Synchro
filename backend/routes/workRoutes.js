@@ -4,7 +4,7 @@ const { newWorkSpace, getWorkSpace } = require('../controllers/workController');
 const isAuthenticated = require('../middlewares/auth');
 
 router.post('/newWorkSpace', isAuthenticated, newWorkSpace);
-router.get('/getWorkSpace', isAuthenticated, getWorkSpace);
+router.get('/getWorkSpace/:roomId', isAuthenticated, getWorkSpace);
 
 
 module.exports = router;

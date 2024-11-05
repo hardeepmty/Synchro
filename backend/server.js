@@ -106,10 +106,11 @@ io.on("connection", (socket) => {
 
 
 //going to add save workspace functionality
+app.use(express.json());
 app.use(cookieParser()) ;
 
 app.use("/api/user", userRoutes)
-app.use("api/workspace",workRoutes)
+app.use("/api/workspace",workRoutes)
 
 
 
