@@ -48,7 +48,12 @@ const login = async (req, res) => {
       });
     }
 
-    let user = await User.findOne({ username });
+    let user = await User.findOne({ username }).populate({
+      path: "workspaces",
+      select: "code language roomId", 
+    });
+
+    
     if (!user) {
       return res.status(401).json({
         message: "No user found",
