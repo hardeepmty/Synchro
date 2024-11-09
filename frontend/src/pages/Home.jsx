@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Register from '../components/Register';
+import Login from '../components/Login';
 
 const Home = () => {
   const [roomId, setRoomId] = useState('');
@@ -37,6 +39,9 @@ const Home = () => {
         onChange={(e) => setUserName(e.target.value)}
       />
       <button onClick={handleJoinRoom}>Create/Join Room</button>
+
+      <Register/>
+      <Login/>
     </div>
   );
 };
