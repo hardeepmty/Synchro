@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Register from '../components/Register';
 import Login from '../components/Login';
-import Workspaces from '../components/Workspaces';
 
 const Home = () => {
   const [roomId, setRoomId] = useState('');
   const [userName, setUserName] = useState('');
   const navigate = useNavigate();
 
-  // Function to generate a random room ID
+  // generate a random room ID
   const generateRoomId = () => {
-    const newRoomId = Math.random().toString(36).substring(2, 10); // Generates an 8-character random ID
+    const newRoomId = Math.random().toString(36).substring(2, 10); // generates an 8-character random ID
     setRoomId(newRoomId);
   };
 

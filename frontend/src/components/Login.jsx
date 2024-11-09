@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
@@ -8,8 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('') ;
   const [userData, setUserData] = useState('') ;
   const [workspaces, setWorkspaces] = useState(null) ;
-  const [error, setError] = useState([]);
-
+  const [error, setError] = useState([]) ;
   const navigate = useNavigate() ;
 
   const handleLogin = async (e) => {
@@ -31,6 +30,11 @@ const Login = () => {
       setError('failed to login')
     }
   }
+
+  const handleWorkspaceClick = (roomId) => {
+    navigate(`/workspace/${roomId}`) ;
+  }
+
   return (
     <div>
       <h2>Login</h2>
@@ -50,7 +54,7 @@ const Login = () => {
           <h4>Your Workspaces:</h4>
           <ul>
             {workspaces.map((workspace, index) => (
-              <li key={index}>{workspace.roomId}</li>
+              <li key={index} onClick={()=>handleWorkspaceClick(workspace.roomId)}>{workspace.roomId}</li>
             ))}
           </ul>
         </div>
