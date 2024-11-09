@@ -10,7 +10,7 @@ const Home = () => {
 
   // generate a random room ID
   const generateRoomId = () => {
-    const newRoomId = Math.random().toString(36).substring(2, 10); // generates an 8-character random ID
+    const newRoomId = Math.random().toString(36).substring(2, 10); // generate 8-character random ID
     setRoomId(newRoomId);
   };
 
