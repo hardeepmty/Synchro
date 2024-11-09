@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import Workspaces from '../components/Workspaces';
 
 const Home = () => {
   const [roomId, setRoomId] = useState('');

@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Workspaces = () => {
+  const [username,setUsername] = useState('') ;
+
+  useEffect(() => {
+    const fetchWorkSpaces = async() => {
+      try{
+        const response = await axios.get()
+      }catch(error){
+        console.log(error) ;
+      }
+    }
+  },[])
   return (
     <div>
-      Workspaces
+      <h2>Workspaces</h2>
     </div>
   )
 }

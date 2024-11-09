@@ -6,7 +6,9 @@ const Login = () => {
 
   const [username,setUsername] = useState('') ;
   const [password, setPassword] = useState('') ;
-  const [error, setError] = useState('');
+  const [userData, setUserData] = useState('') ;
+  const [workspaces, setWorkspaces] = useState(null) ;
+  const [error, setError] = useState([]);
 
   const navigate = useNavigate() ;
 
@@ -16,7 +18,9 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/api/user/login' , {username, password} , {withCredentials: true}) ;
       if(response.data.success){
         console.log(response) ;
-        navigate('/workspace') ;
+        // navigate('/workspace') ;
+        setUserData(response.data.user.username)
+        setWorkspaces(response.data.user.workspaces)
       }
       else{
         setError(response.data.message);
@@ -38,6 +42,19 @@ const Login = () => {
         <button type='submit'>Login</button>
       </form>
       {error && <p>{error}</p>}
+
+
+      {userData && (
+        <div>
+          <h3>Welcome, {userData}!</h3>
+          <h4>Your Workspaces:</h4>
+          <ul>
+            {workspaces.map((workspace, index) => (
+              <li key={index}>{workspace.roomId}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
