@@ -19,6 +19,7 @@ const Workspace = () => {
         setWorkspaceData(response.data);
       }catch(error){
         console.log(error) ;
+        setError(error)
       }
     }
 
