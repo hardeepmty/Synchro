@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import AceEditor from 'react-ace';
+import axios from 'axios'; // Import axios
 import VideoCall from '../components/VideoCall';
 
 // Importing modes
@@ -35,6 +36,7 @@ const Room = () => {
   const [projectDescription, setProjectDescription] = useState('');
   const [aiGeneratedCode, setAIGeneratedCode] = useState(''); 
   const [readOnly, setReadOnly] = useState(true);
+  const [feedback, setFeedback] = useState(''); // State for feedback message
 
   useEffect(() => {
     const newSocket = io('http://localhost:5000');
@@ -102,6 +104,24 @@ const Room = () => {
     URL.revokeObjectURL(url);
   };
 
+  // function to save to workspace
+  const addToWorkspace = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/api/workspace/newWorkSpace',
+        { roomId, code, language },
+        {
+          withCredentials: true 
+        }
+      );
+      setFeedback(response.data.message);
+    } catch (error) {
+      setFeedback('Failed to save workspace');
+      console.error('Error saving workspace:', error);
+    }
+  };
+  
+
   return (
     <div>
       <h2>Room: {roomId}</h2>
@@ -126,7 +146,6 @@ const Room = () => {
         <div style={{ flex: 2 }}>
           <h3>Collaborative Code Editor</h3>
           <div>
-            {/* <label>Language:</label> */}
             <select value={language} onChange={(e) => updateLanguage(e.target.value)}>
               <option value="javascript">JavaScript</option>
               <option value="python">Python</option>
@@ -164,6 +183,8 @@ const Room = () => {
           />
           <button onClick={runCode}>Run Code</button>
           <button onClick={downloadCode}>Download Code</button>
+          <button onClick={addToWorkspace}>Add to Workspaces</button> {/* Add to Workspace button */}
+          {feedback && <p>{feedback}</p>} {/* Display feedback message */}
           <h4>Output:</h4>
           <pre style={{ border: '1px solid #ccc', padding: '10px', minHeight: '100px' }}>
             {output}
