@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import AceEditor from 'react-ace';
-import axios from 'axios'; // Import axios
+import axios from 'axios'; 
 import VideoCall from '../components/VideoCall';
 
-// Importing modes
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/mode-java';
 import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/mode-markdown';
 
-// Importing themes
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-twilight';
@@ -32,11 +30,12 @@ const Room = () => {
   const [code, setCode] = useState('// Write your code here...');
   const [language, setLanguage] = useState('javascript');
   const [output, setOutput] = useState('');
-  const [theme, setTheme] = useState('github'); // Default theme
+  const [theme, setTheme] = useState('github');
   const [projectDescription, setProjectDescription] = useState('');
-  const [aiGeneratedCode, setAIGeneratedCode] = useState(''); 
+  const [aiGeneratedCode, setAIGeneratedCode] = useState('');
   const [readOnly, setReadOnly] = useState(true);
-  const [feedback, setFeedback] = useState(''); // State for feedback message
+  const [feedback, setFeedback] = useState('');
+  const [typingUsers, setTypingUsers] = useState([]); // New state to track typing users
 
   useEffect(() => {
     const newSocket = io('http://localhost:5000');
@@ -51,6 +50,13 @@ const Room = () => {
     newSocket.on('codeUpdate', (data) => {
       if (data.user !== userName) {
         setCode(data.code);
+        setTypingUsers((prevTypingUsers) => [...prevTypingUsers, data.user]); // Add user to typing users
+        const timer = setTimeout(() => {
+          setTypingUsers((prevTypingUsers) =>
+            prevTypingUsers.filter((user) => user !== data.user)
+          ); // Remove user from typing users after 2 seconds
+        }, 2000);
+        return () => clearTimeout(timer);
       }
     });
 
@@ -104,14 +110,13 @@ const Room = () => {
     URL.revokeObjectURL(url);
   };
 
-  // function to save to workspace
   const addToWorkspace = async () => {
     try {
       const response = await axios.post(
         'http://localhost:5000/api/workspace/newWorkSpace',
         { roomId, code, language },
         {
-          withCredentials: true 
+          withCredentials: true
         }
       );
       setFeedback(response.data.message);
@@ -120,12 +125,30 @@ const Room = () => {
       console.error('Error saving workspace:', error);
     }
   };
-  
 
   return (
     <div>
       <h2>Room: {roomId}</h2>
       <h3>Welcome, {userName}</h3>
+      {typingUsers.length > 0 && (
+        <div
+          style={{
+            backgroundColor: '#f2f2f2',
+            padding: '10px',
+            marginBottom: '10px',
+          }}
+        >
+          <p>
+            {typingUsers.map((user, index) => (
+              <span key={index}>
+                {user}
+                {index < typingUsers.length - 1 ? ', ' : ''}
+              </span>
+            ))}{' '}
+            {typingUsers.length > 1 ? 'are' : 'is'} typing...
+          </p>
+        </div>
+      )}
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, marginRight: '20px' }}>
           <h3>Chat Messages</h3>
@@ -152,7 +175,7 @@ const Room = () => {
               <option value="java">Java</option>
               <option value="cpp">C++</option>
             </select>
-            
+
             <label>Theme:</label>
             <select value={theme} onChange={(e) => setTheme(e.target.value)}>
               <option value="github">GitHub</option>
@@ -183,8 +206,8 @@ const Room = () => {
           />
           <button onClick={runCode}>Run Code</button>
           <button onClick={downloadCode}>Download Code</button>
-          <button onClick={addToWorkspace}>Add to Workspaces</button> {/* Add to Workspace button */}
-          {feedback && <p>{feedback}</p>} {/* Display feedback message */}
+          <button onClick={addToWorkspace}>Add to Workspaces</button>
+          {feedback && <p>{feedback}</p>}
           <h4>Output:</h4>
           <pre style={{ border: '1px solid #ccc', padding: '10px', minHeight: '100px' }}>
             {output}
