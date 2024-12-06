@@ -99,6 +99,12 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("languageUpdate", { user, language });
   });
 
+  socket.on('cursorUpdate', (data) => {
+    // Broadcast the cursor update to all users in the room except the sender
+    socket.to(data.roomId).emit('cursorUpdate', data);
+  });
+  
+
   socket.on("runCode", async ({ roomId, language, code }) => {
     try {
       const output = await runCode(language, code);

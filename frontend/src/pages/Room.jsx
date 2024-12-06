@@ -35,7 +35,8 @@ const Room = () => {
   const [aiGeneratedCode, setAIGeneratedCode] = useState('');
   const [readOnly, setReadOnly] = useState(true);
   const [feedback, setFeedback] = useState('');
-  const [typingUsers, setTypingUsers] = useState([]); // New state to track typing users
+  const [typingUsers, setTypingUsers] = useState([]); 
+  const [cursors, setCursors] = useState([]); // State for collaborators' cursors
 
   useEffect(() => {
     const newSocket = io('http://localhost:5000');
@@ -50,11 +51,11 @@ const Room = () => {
     newSocket.on('codeUpdate', (data) => {
       if (data.user !== userName) {
         setCode(data.code);
-        setTypingUsers((prevTypingUsers) => [...prevTypingUsers, data.user]); // Add user to typing users
+        setTypingUsers((prevTypingUsers) => [...prevTypingUsers, data.user]); 
         const timer = setTimeout(() => {
           setTypingUsers((prevTypingUsers) =>
             prevTypingUsers.filter((user) => user !== data.user)
-          ); // Remove user from typing users after 2 seconds
+          ); 
         }, 2000);
         return () => clearTimeout(timer);
       }
@@ -68,6 +69,23 @@ const Room = () => {
 
     newSocket.on('codeOutput', (data) => {
       setOutput(data.output);
+    });
+
+    newSocket.on('cursorUpdate', (data) => {
+      if (data.roomId === roomId) {
+        setCursors((prevCursors) => {
+          const existingCursorIndex = prevCursors.findIndex(
+            (cursor) => cursor.user === data.user
+          );
+          if (existingCursorIndex === -1) {
+            return [...prevCursors, data];
+          } else {
+            const updatedCursors = [...prevCursors];
+            updatedCursors[existingCursorIndex] = data;
+            return updatedCursors;
+          }
+        });
+      }
     });
 
     return () => newSocket.close();
@@ -126,23 +144,26 @@ const Room = () => {
     }
   };
 
+  const handleCursorMove = (e) => {
+    const cursorPosition = {
+      user: userName,
+      roomId,
+      position: { x: e.clientX, y: e.clientY },
+    };
+    socket.emit('cursorUpdate', cursorPosition);
+  };
+
   return (
     <div>
       <h2>Room: {roomId}</h2>
       <h3>Welcome, {userName}</h3>
       {typingUsers.length > 0 && (
-        <div
-          style={{
-            backgroundColor: '#f2f2f2',
-            padding: '10px',
-            marginBottom: '10px',
-          }}
-        >
+        <div style={{ backgroundColor: '#f2f2f2', padding: '10px', marginBottom: '10px' }}>
           <p>
             {typingUsers.map((user, index) => (
               <span key={index}>
                 {user}
-                {index < typingUsers.length - 1 ? ', ' : ''}
+                {index < typingUsers.length - 1 ? ', ' : ''} 
               </span>
             ))}{' '}
             {typingUsers.length > 1 ? 'are' : 'is'} typing...
@@ -166,7 +187,7 @@ const Room = () => {
           <button onClick={sendMessage}>Send</button>
         </div>
 
-        <div style={{ flex: 2 }}>
+        <div style={{ flex: 2 }} onMouseMove={handleCursorMove}>
           <h3>Collaborative Code Editor</h3>
           <div>
             <select value={language} onChange={(e) => updateLanguage(e.target.value)}>
@@ -175,7 +196,6 @@ const Room = () => {
               <option value="java">Java</option>
               <option value="cpp">C++</option>
             </select>
-
             <label>Theme:</label>
             <select value={theme} onChange={(e) => setTheme(e.target.value)}>
               <option value="github">GitHub</option>
@@ -214,6 +234,23 @@ const Room = () => {
           </pre>
         </div>
       </div>
+
+      {/* Render cursor positions */}
+      {cursors.map((cursor, index) => (
+        <div
+          key={index}
+          style={{
+            position: 'absolute',
+            top: cursor.position.y,
+            left: cursor.position.x,
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            height: '10px',
+            width: '10px',
+            borderRadius: '50%',
+          }}
+        ></div>
+      ))}
+
       <VideoCall appId="1eb60b7caffd48549e11940d39453bc7" channel="test" />
     </div>
   );

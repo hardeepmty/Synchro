@@ -1,0 +1,41 @@
+/* .page-container {
+  position: relative;
+  min-height: 100vh;
+  background-color: black;
+}
+
+.grid-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(transparent 0%, transparent calc(100% - 1px), rgba(255, 255, 255, 0.1) calc(100% - 1px)),
+    linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(255, 255, 255, 0.1) calc(100% - 1px));
+  background-size: 50px 50px;
+  transform: perspective(500px) rotateX(60deg);
+  animation: moveGrid 20s linear infinite;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes moveGrid {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 50px;
+  }
+} */
+
+
