@@ -45,9 +45,10 @@ const Home = () => {
           onChange={(e) => setUserName(e.target.value)}
         />
         <button onClick={handleJoinRoom}>Create/Join Room</button>
-
+        <div className='auth-page' style={{display:"flex", gap:"20px"}}>
         <Register/>
         <Login/>
+        </div>
       </div>
     </div>
   );
