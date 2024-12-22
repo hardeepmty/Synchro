@@ -1,0 +1,207 @@
+body{
+  background-color:  #1a1a1a;
+}
+.room-container {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.room-header {
+  margin-bottom: 2rem;
+}
+
+.room-header h2 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.room-header h3 {
+  color: #64748b;
+  font-size: 1.2rem;
+}
+
+.typing-indicator {
+  background-color: #2d2d2d;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.workspace {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Chat Section */
+.chat-section {
+  flex: 1;
+}
+
+.chat-container {
+  background-color: #2d2d2d;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  height: 200px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  border: 1px solid #404040;
+}
+
+.chat-message {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.chat-message strong {
+  color: #60a5fa;
+  margin-right: 0.5rem;
+}
+
+.chat-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input input {
+  flex: 1;
+  background-color: #2d2d2d;
+  border: 1px solid #404040;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  color: #e0e0e0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input input:focus {
+  border-color: #60a5fa;
+}
+
+/* Editor Section */
+.editor-section {
+  margin-top: -150px;
+  flex: 2;
+}
+
+.editor-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.select-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+select {
+  background-color: #2d2d2d;
+  border: 1px solid #404040;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  color: #e0e0e0;
+  outline: none;
+  cursor: pointer;
+}
+
+select:focus {
+  border-color: #60a5fa;
+}
+
+.editor-wrapper {
+  border: 1px solid #404040;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+/* Button Styles */
+.btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #2563eb;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+/* Output Section */
+.output-container {
+  background-color: #2d2d2d;
+  border: 1px solid #404040;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-height: 100px;
+  margin-top: 1rem;
+}
+
+.output-container pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #e0e0e0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Feedback Message */
+.feedback {
+  color: #60a5fa;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Cursor Indicators */
+.cursor-indicator {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4a;
+}
+
+/* Video Call Section */
+.video-call {
+  margin-top: 2rem;
+  background-color: #2d2d2d;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #404040;
+}

@@ -1,4 +1,4 @@
-/* .page-container {
+.page-container {
   position: relative;
   min-height: 100vh;
   background-color: black;
@@ -21,7 +21,7 @@
     linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(255, 255, 255, 0.1) calc(100% - 1px));
   background-size: 50px 50px;
   transform: perspective(500px) rotateX(60deg);
-  animation: moveGrid 20s linear infinite;
+  animation: moveGrid 15s linear infinite;
 }
 
 .content {
@@ -36,6 +36,6 @@
   100% {
     background-position: 0 50px;
   }
-} */
+} 
 
 

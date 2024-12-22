@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import AceEditor from 'react-ace';
 import axios from 'axios'; 
 import VideoCall from '../components/VideoCall';
+import './Room.css';
 
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
@@ -154,11 +155,14 @@ const Room = () => {
   };
 
   return (
-    <div>
-      <h2>Room: {roomId}</h2>
-      <h3>Welcome, {userName}</h3>
+    <div className="room-container" style={{fontFamily:"Montserrat"}}>
+      <div className="room-header">
+        <h2>Room: {roomId}</h2>
+        <h3>Welcome, {userName}</h3>
+      </div>
+
       {typingUsers.length > 0 && (
-        <div style={{ backgroundColor: '#f2f2f2', padding: '10px', marginBottom: '10px' }}>
+        <div className="typing-indicator">
           <p>
             {typingUsers.map((user, index) => (
               <span key={index}>
@@ -170,88 +174,103 @@ const Room = () => {
           </p>
         </div>
       )}
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, marginRight: '20px' }}>
+
+      <div className="workspace">
+        <div className="chat-section">
           <h3>Chat Messages</h3>
-          <div style={{ height: '200px', overflowY: 'scroll', border: '1px solid #ccc', padding: '10px' }}>
+          <div className="chat-container">
             {messages.map((msg, index) => (
-              <div key={index}><strong>{msg.user}:</strong> {msg.message}</div>
+              <div key={index} className="chat-message">
+                <strong>{msg.user}:</strong> {msg.message}
+              </div>
             ))}
           </div>
-          <input
-            type="text"
-            placeholder="Type a message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button onClick={sendMessage}>Send</button>
+          <div className="chat-input">
+            <input
+              type="text"
+              placeholder="Type a message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <button className="btn" onClick={sendMessage}>Send</button>
+          </div>
         </div>
 
-        <div style={{ flex: 2 }} onMouseMove={handleCursorMove}>
+        <div className="editor-section" onMouseMove={handleCursorMove}>
           <h3>Collaborative Code Editor</h3>
-          <div>
-            <select value={language} onChange={(e) => updateLanguage(e.target.value)}>
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-              <option value="cpp">C++</option>
-            </select>
-            <label>Theme:</label>
-            <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-              <option value="github">GitHub</option>
-              <option value="monokai">Monokai</option>
-              <option value="twilight">Twilight</option>
-              <option value="solarized_dark">Solarized Dark</option>
-              <option value="solarized_light">Solarized Light</option>
-              <option value="dracula">Dracula</option>
-              <option value="chaos">Chaos</option>
-            </select>
+          <div className="editor-controls">
+            <div className="select-container">
+              <select value={language} onChange={(e) => updateLanguage(e.target.value)}>
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+              </select>
+            </div>
+            <div className="select-container">
+              <label>Theme:</label>
+              <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+                <option value="github">GitHub</option>
+                <option value="monokai">Monokai</option>
+                <option value="twilight">Twilight</option>
+                <option value="solarized_dark">Solarized Dark</option>
+                <option value="solarized_light">Solarized Light</option>
+                <option value="dracula">Dracula</option>
+                <option value="chaos">Chaos</option>
+              </select>
+            </div>
           </div>
-          <AceEditor
-            mode={language}
-            theme={theme}
-            name="code-editor"
-            onChange={updateCode}
-            value={code}
-            editorProps={{ $blockScrolling: true }}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showGutter: true,
-              highlightActiveLine: true,
-              fontSize: 16,
-            }}
-            style={{ width: '100%', height: '300px' }}
-          />
-          <button onClick={runCode}>Run Code</button>
-          <button onClick={downloadCode}>Download Code</button>
-          <button onClick={addToWorkspace}>Add to Workspaces</button>
-          {feedback && <p>{feedback}</p>}
+
+          <div className="editor-wrapper">
+            <AceEditor
+              mode={language}
+              theme={theme}
+              name="code-editor"
+              onChange={updateCode}
+              value={code}
+              editorProps={{ $blockScrolling: true }}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+                showGutter: true,
+                highlightActiveLine: true,
+                fontSize: 16,
+              }}
+              style={{ width: '100%', height: '400px' }}
+            />
+          </div>
+
+          <div className="btn-group">
+            <button className="btn" onClick={runCode}>Run Code</button>
+            <button className="btn" onClick={downloadCode}>Download Code</button>
+            <button className="btn" onClick={addToWorkspace}>Add to Workspaces</button>
+          </div>
+
+          {feedback && <p className="feedback">{feedback}</p>}
+
           <h4>Output:</h4>
-          <pre style={{ border: '1px solid #ccc', padding: '10px', minHeight: '100px' }}>
-            {output}
-          </pre>
+          <div className="output-container">
+            <pre>{output}</pre>
+          </div>
         </div>
       </div>
 
-      {/* Render cursor positions */}
       {cursors.map((cursor, index) => (
         <div
           key={index}
+          className="cursor-indicator"
           style={{
-            position: 'absolute',
             top: cursor.position.y,
             left: cursor.position.x,
-            backgroundColor: 'rgba(255, 0, 0, 0.5)',
-            height: '10px',
-            width: '10px',
-            borderRadius: '50%',
+            backgroundColor: `hsla(${index * 137.508}deg, 70%, 50%, 0.5)`,
           }}
-        ></div>
+        />
       ))}
 
-      <VideoCall appId="1eb60b7caffd48549e11940d39453bc7" channel="test" />
+      <div className="video-call">
+        <VideoCall appId="1eb60b7caffd48549e11940d39453bc7" channel="test" />
+      </div>
     </div>
   );
 };
