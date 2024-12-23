@@ -1,7 +1,12 @@
 .page-container {
   position: relative;
   min-height: 100vh;
-  background-color: black;
+  background-color: #1a1a1a;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .grid-background {
@@ -21,14 +26,239 @@
     linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(255, 255, 255, 0.1) calc(100% - 1px));
   background-size: 50px 50px;
   transform: perspective(500px) rotateX(60deg);
-  animation: moveGrid 15s linear infinite;
+  animation: moveGrid 1s linear infinite;
 }
 
 .content {
   position: relative;
   z-index: 1;
+  text-align: center;
+  width: 90%;
+  max-width: 1200px;
 }
 
+/* Hero Section */
+.hero {
+  margin-bottom: 40px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  color: #ccc;
+}
+
+.synchro-highlight {
+  color: #ff6f61; /* Adding a distinct color for "Synchro" */
+  font-weight: bold;
+  text-shadow: 2px 2px 8px rgba(255, 0, 0, 0.5); /* Added shadow effect */
+  font-family: 'Roboto', sans-serif; /* Unique font for the name */
+  font-size: 4rem; /* Bigger font size for more prominence */
+}
+
+/* Form Section */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-field {
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #444;
+  background-color: #222;
+  color: white;
+  font-size: 1rem;
+  width: 300px;
+}
+
+.generate-btn, .join-btn {
+  padding: 10px 20px;
+  background-color: #2d5366;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  border: 3px solid #182e38;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.generate-btn:hover, .join-btn:hover {
+  background-color: #0077cc;
+}
+
+/* Auth Section */
+.auth-prompt {
+  background-color: rgba(34, 33, 33, 0.7); /* Slightly transparent black background */
+  padding: 40px 30px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 50px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s
+}
+
+.auth-prompt h2 {
+  font-size: 2rem;
+  color: #faf9f8; /* Golden accent color */
+  margin-bottom: 20px;
+}
+
+.auth-prompt p {
+  font-size: 1.1rem;
+  color: #ddd;
+  margin-bottom: 30px;
+}
+
+.auth-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.auth-btn {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  background-color: #00aaff; /* Blue button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: #0077cc; /* Darker blue on hover */
+}
+
+/* Adjust the Login and Register Form Section */
+.auth-forms {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.auth-forms > div {
+  width: 350px; /* Adjust width for better form appearance */
+}
+
+/* Features Section */
+.features-section {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 50px 0;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 1rem;
+}
+
+/* Cursor Tracker */
+.cursor-tracker {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2); /* Transparent center for a clean look */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Subtle border for better visibility */
+  border-radius: 50%;
+  pointer-events: none; /* Prevent interaction */
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.1s ease-out, background 0.3s ease-in-out, border 0.3s ease-in-out;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 30px rgba(0, 150, 255, 0.2); /* Futuristic glow */
+}
+
+.cursor-tracker:hover {
+  background: rgba(0, 150, 255, 0.3); /* Subtle blue glow on hover */
+  border: 1px solid rgba(0, 150, 255, 0.8); /* Highlighted border */
+  transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
+  box-shadow: 0 0 20px rgba(190, 193, 196, 0.884), 0 0 40px rgba(223, 224, 224, 0.87); /* Enhanced glow */
+}
+
+.cursor-tracker::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 150, 255, 0.1); /* Very light blue for a halo effect */
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: halo 1.5s infinite ease-in-out;
+  z-index: -1; /* Ensures the halo stays behind */
+}
+
+.cursor-tracker::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.5); /* Brighter dot in the center */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-center 2s infinite ease-in-out;
+}
+
+@keyframes halo {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-center {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+}
+
+
+
+/* Grid Animation */
 @keyframes moveGrid {
   0% {
     background-position: 0 0;
@@ -36,6 +266,6 @@
   100% {
     background-position: 0 50px;
   }
-} 
+}
 
 

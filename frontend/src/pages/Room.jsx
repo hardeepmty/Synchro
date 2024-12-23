@@ -31,7 +31,7 @@ const Room = () => {
   const [code, setCode] = useState('// Write your code here...');
   const [language, setLanguage] = useState('javascript');
   const [output, setOutput] = useState('');
-  const [theme, setTheme] = useState('github');
+  const [theme, setTheme] = useState('monokai');
   const [projectDescription, setProjectDescription] = useState('');
   const [aiGeneratedCode, setAIGeneratedCode] = useState('');
   const [readOnly, setReadOnly] = useState(true);
@@ -161,19 +161,7 @@ const Room = () => {
         <h3>Welcome, {userName}</h3>
       </div>
 
-      {typingUsers.length > 0 && (
-        <div className="typing-indicator">
-          <p>
-            {typingUsers.map((user, index) => (
-              <span key={index}>
-                {user}
-                {index < typingUsers.length - 1 ? ', ' : ''} 
-              </span>
-            ))}{' '}
-            {typingUsers.length > 1 ? 'are' : 'is'} typing...
-          </p>
-        </div>
-      )}
+
 
       <div className="workspace">
         <div className="chat-section">
@@ -194,6 +182,20 @@ const Room = () => {
             />
             <button className="btn" onClick={sendMessage}>Send</button>
           </div>
+
+          {typingUsers.length >= 0 && (
+        <div className="typing-indicator">
+          <p>
+            {typingUsers.map((user, index) => (
+              <span key={index}>
+                {user}
+                {index < typingUsers.length - 1 ? ', ' : ''} 
+              </span>
+            ))}{' '}
+            {typingUsers.length > 1 ? 'are' : 'is'} typing...
+          </p>
+        </div>
+      )}
         </div>
 
         <div className="editor-section" onMouseMove={handleCursorMove}>
@@ -220,6 +222,7 @@ const Room = () => {
               </select>
             </div>
           </div>
+
 
           <div className="editor-wrapper">
             <AceEditor

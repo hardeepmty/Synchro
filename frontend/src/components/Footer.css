@@ -1,0 +1,130 @@
+/* Footer Styling */
+.footer {
+  background-color: #1a1a1ad3;
+  color: #f0f0f0;
+  padding: 40px 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+}
+
+/* Logo and Tagline Section */
+.footer-logo-section {
+  flex: 1;
+}
+
+.footer-logo {
+  color: #ff6f61; /* Adding a distinct color for "Synchro" */
+  font-weight: bold;
+  text-shadow: 2px 2px 8px rgba(255, 0, 0, 0.5); /* Added shadow effect */
+  font-family: 'Roboto', sans-serif; /* Unique font for the name */
+  font-size: 2.5rem; /* Bigger font size for more prominence */
+  margin-bottom: 10px;
+}
+
+.footer-tagline {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+/* Quick Links Section */
+.footer-links-section {
+  flex: 1;
+}
+
+.footer-links-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #00aaff;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #0077cc;
+}
+
+/* Social Media Section */
+.footer-social-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Center horizontally */
+  justify-content: center;  /* Center vertically */
+  text-align: center;  /* Ensures text is centered as well */
+}
+
+.footer-social-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.footer-social-icons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;  /* Center the icons horizontally */
+  align-items: center;  /* Align items vertically */
+}
+
+.footer-social-icons a {
+  font-size: 1.5rem;
+  color: #2d5366;
+  transition: color 0.3s ease;
+}
+
+.footer-social-icons a:hover {
+  color: #0077cc;
+}
+
+
+/* Bottom Section */
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  border-top: 1px solid #444;
+  padding-top: 20px;
+  color: #ccc;
+}
+
+.footer-bottom a {
+  text-decoration: none;
+  color: #5697b8;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #0077cc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
