@@ -40,7 +40,7 @@ const Room = () => {
   const [cursors, setCursors] = useState([]); // State for collaborators' cursors
 
   useEffect(() => {
-    const newSocket = io('http://13.211.188.41');
+    const newSocket = io('https://synchr.zapto.org');
     setSocket(newSocket);
 
     newSocket.emit('joinRoom', roomId);
@@ -132,7 +132,7 @@ const Room = () => {
   const addToWorkspace = async () => {
     try {
       const response = await axios.post(
-        'http://13.211.188.41/api/workspace/newWorkSpace',
+        'https://synchr.zapto.org/api/workspace/newWorkSpace',
         { roomId, code, language },
         {
           withCredentials: true

@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://13.211.188.41/api/user/login',
+        'https://synchr.zapto.org/api/user/login',
         { username, password },
         { withCredentials: true }
       );
