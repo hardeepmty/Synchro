@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import https from 'https';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -13,10 +13,6 @@ const Login = () => {
   );
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  axios.defaults.httpsAgent = new https.Agent({  
-    rejectUnauthorized: false
-  });
 
   const handleLogin = async (e) => {
     e.preventDefault();
