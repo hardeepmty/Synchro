@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/user/login',
+        'http://13.211.188.41/api/user/login',
         { username, password },
         { withCredentials: true }
       );

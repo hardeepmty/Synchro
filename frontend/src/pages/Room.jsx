@@ -40,7 +40,7 @@ const Room = () => {
   const [cursors, setCursors] = useState([]); // State for collaborators' cursors
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io('http://13.211.188.41');
     setSocket(newSocket);
 
     newSocket.emit('joinRoom', roomId);
@@ -132,7 +132,7 @@ const Room = () => {
   const addToWorkspace = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/workspace/newWorkSpace',
+        'http://13.211.188.41/api/workspace/newWorkSpace',
         { roomId, code, language },
         {
           withCredentials: true
