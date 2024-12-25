@@ -132,7 +132,7 @@ const Room = () => {
   const addToWorkspace = async () => {
     try {
       const response = await axios.post(
-        'https://13.211.188.41/api/workspace/newWorkSpace',
+        'http://13.211.188.41/api/workspace/newWorkSpace',
         { roomId, code, language },
         {
           withCredentials: true
