@@ -16,35 +16,22 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-
-const allowedOrigins = [
-  "http://localhost:5173", // Local frontend
-  "https://synchro-xi.vercel.app", // Hosted frontend domain
-];
-
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: "https://synchro-xi.vercel.app",
     methods: ["GET", "POST"],
-    credentials: true,
+    credentials: true, 
   },
 });
 
 //adding db
 connectDB() ;
 
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "https://synchro-xi.vercel.app", 
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    credentials: true, 
   })
 );
 
