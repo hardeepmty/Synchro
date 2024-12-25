@@ -29,7 +29,7 @@ const Workspace = () => {
   useEffect(() => {
     const fetchWorkspaceData = async () => {
       try {
-        const response = await axios.get(`http://13.211.188.41/api/workspace/getWorkSpace/${roomId}`, {
+        const response = await axios.get(`https://13.211.188.41/api/workspace/getWorkSpace/${roomId}`, {
           withCredentials: true,
         });
         setWorkspaceData(response.data);
